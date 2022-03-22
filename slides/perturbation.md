@@ -1,4 +1,4 @@
-# Perturbation Analysis (1)
+# Perturbation Analysis
 
 ## Advanced Macro: Numerical Methods,  2022 (MIE37)
 
@@ -37,8 +37,8 @@ $$
 - Definition:
 $$c_t = \exp(z_t) k_t^\alpha - i_t$$
 
-- Control $i_t\in[-(1-\delta) k_t,k_t^\alpha[$
-  - or equivalently $c_t \in [0, k_t^{\alpha}]$
+- Control $i_t\in[0, \exp(z_t)k_t^\alpha[$
+  - or equivalently $c_t \in ]0, \exp(z_t) k_t^{\alpha}]$
 
 - Objective:
 $$\max_{i_t} \sum_{t\geq0} \beta^t U(c_t)$$
@@ -71,19 +71,18 @@ $$\max_{i_t} \sum_{t\geq0} \beta^t U(c_t)$$
 
 ### Lagrangian
 
-- Initial Conditions (predetermined states):
-    - $z_0$, $k_0$
+- Initial Conditions (predetermined states): $z_0$, $k_0$
 - Problem:
 $$V(z_0, k_0) = \max_{\begin{matrix}i_0, i_1, i_2, \cdots \\\\c_0, c_1, c_2 \cdots \\\\ k_1, k_2, \cdots\end{matrix}} \sum_{t \geq 0}\beta^t U(c_t)$$
-s.t. $\forall t\geq 0$
-$$\begin{eqnarray}
-\mu_t:\quad &  0 & \leq & i_t + (1-\delta) k_t \\\\
+
+$$\text{s.t.}\forall t\geq 0, \\; \\; \begin{eqnarray}
+\mu_t:\quad &  0 & \leq & i_t  \\\\
 \nu_t:\quad &  i_t & \leq & \exp(z_t) k_t^{\alpha} \\\\
 \lambda_t:\quad &  i_t & = & \exp(z_t) k_t^{\alpha} - c_t\\\\
 q_t:\quad &  k_{t+1} & = & (1-\delta) k_{t} + i_{t}
 \end{eqnarray}$$
 - Lagrangian:
-$$\mathcal{L(z_0, k_0)} =   \sum_{t \geq 0} \beta^t\left\\{ U(c_t) + \mu_t \left( i (1-\delta) k_t + i_t \right) + \nu_t \left(\exp(z_t)k_t^{\alpha} - i_t \right) + \lambda_t \left(\exp(z_t) k_t^{\alpha}  - i_t -c_t \right)  + q_t \left( (1-\delta) k_{t} + i_{t} - k_{t+1} \right) \right\\}$$
+$$\mathcal{L(z_0, k_0)} =   \sum_{t \geq 0} \beta^t\left\\{ U(c_t) + \mu_t \left( i_t \right) + \nu_t \left(\exp(z_t)k_t^{\alpha} - i_t \right) + \lambda_t \left(\exp(z_t) k_t^{\alpha}  - i_t -c_t \right)  + q_t \left( (1-\delta) k_{t} + i_{t} - k_{t+1} \right) \right\\}$$
 
 ----
 
@@ -113,7 +112,7 @@ $$\begin{eqnarray}
 
 |                    |                                             |
 | ------------------ | ------------------------------------------- |
-| $\mu_t \geq 0$     | $(1-\delta)k_t + i_t \geq 0$                |
+| $\mu_t \geq 0$     | $ i_t \geq 0$                |
 | $\nu_t \geq 0$     | $\exp(z_t) k_t^{\alpha}-i_t \geq 0$         |
 | $q_t \geq 0$       | $(1-\delta) k_{t} + i_{t} - k_{t+1} \geq 0$ |
 | $\lambda_t \geq 0$ | $\exp(z_t) k_t^{\alpha}  - i_t -c_t = 0$    |
@@ -134,7 +133,7 @@ $$\begin{eqnarray}
 
 |                    |                                             |
 | ------------------ | ------------------------------------------- |
-| $\mu_t \geq 0$     | $(1-\delta)k_t + i_t \geq 0$                |
+| $\mu_t \geq 0$     | $ i_t \geq 0$                |
 | $\nu_t \geq 0$     | $\exp(z_t) k_t^{\alpha}-i_t \geq 0$         |
 | $q_t$       | $(1-\delta) k_{t} + i_{t} - k_{t+1} = 0$ |
 | $\lambda_t$ | $\exp(z_t) k_t^{\alpha}  - i_t -c_t = 0$    |
@@ -154,7 +153,7 @@ Let's review them:
   - hence $\mu_t=0$
 - for multipliers associated to an equality constraint, we always keep the system
   - multiplier can have any sign
-- but sometimes, there is an implicit inequality:
+- inequality formulation is sometimes found too:
   -  $c_t \leq \exp(z_t) k_t^{\alpha}  - i_t$ ( you can destroy production insead of eating or investing it)
   - $k_{t+1} \leq (1-\delta) k_{t} + i_{t}$ (you can destroy capital instead of investing it)
 
@@ -185,7 +184,7 @@ $$z_t = \rho z_{t-1}$$
 <div class="col">
 
 - Steady-State: $\overline{i}, \overline{k}, \overline{z}$ such that:
-  - $z_{t+1}=k_t=\overline{z}$
+  - $z_{t+1}=z_t=\overline{z}$
   - $k_{t+1}=k_t=\overline{k}$
   - $i_{t+1}=i_t=\overline{i}$
 - ...satisfy the first order conditions
@@ -323,7 +322,7 @@ $$ \begin{bmatrix} \Delta k_t \\\\ \Delta z_t \end{bmatrix} = \begin{bmatrix} . 
 - Trick:
     - never use $\frac{d}{dx} \frac{u(x)}{v(x)} = \frac{u'(x)v(x)-u(x)v'(x)}{v(x)^2}$
       - too error prone
-    - use instead $$\frac{d}{dx} {u(x)v(x)} = {u'(x)v(x)+u(x)v'(x)}$$ and $$\frac{d}{dx} u(x) = -\frac{u^{\prime}}{u(x)^2}$$
+    - use instead $$\frac{d}{dx} {u(x)v(x)} = {u'(x)v(x)+u(x)v'(x)}$$ and $$\frac{d}{dx} \frac{1}{u(x)} = -\frac{u^{\prime}}{u(x)^2}$$
 - You can get easier calculations (in some cases) by using log-deviation rules
 
 ----
@@ -683,7 +682,7 @@ $$F(X, \tilde{X}) = (A + B X) + ( C+ D \tilde{X}) ( E  + F X ) = 0 $$
 - We can now compute the model evolution following initial deviation in the state:
 $$\Delta s_t = \underbrace{(F + G X)}\_{P} \Delta s\_{t-1}$$
   - $P$ is the simulation operator
-  - it does *backward* iteration
+  - it is a *backward* operator
 (TODO: example of a reaction to a shock)
 - The system is stable if the biggest eigenvalue of $P$ is smaller than one...
 - ... or if its spectral radius is smaller than 1:
@@ -731,7 +730,6 @@ $$\Delta s_t = \underbrace{(F + G X)}\_{P} \Delta s\_{t-1}$$
 
 - To solve the model we use the backard operator: $$T: \begin{eqnarray} \mathbb{R}^{n_x} \times \mathbb{R}^{n_s}  & \rightarrow &  \mathbb{R}^{n_x} \times \mathbb{R}^{n_s}  \\\\X_{t+1} & \mapsto & X_t \text{s.t.} F(X_t,X_{t+1})=0\end{eqnarray}$$
 - What about its stability?
-  - TODO: interpretation
 - Recall: fixed point $\overline{z}$ of recursive sequence $z_n=f(z_{n_1})$ is stable if $|f^{\prime}(\overline{z})|<1$
 - We need to study $T^{\prime}$ of ($X$).
   - but $T$ maps a matrix to another matrix 🐉😓
